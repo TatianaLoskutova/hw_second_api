@@ -19,6 +19,24 @@ export const blogRepository = {
         blogsDataBase.push(newBlog)
         return newBlog;
     },
+    updateBlog(id: string, websiteUrl: string) {
+        let blogRepositoryUpdated = blogsDataBase.find(p => p.id === id);
+        if (blogRepositoryUpdated) {
+            blogRepositoryUpdated.websiteUrl = websiteUrl
+            return true;
+        } else {
+            return false;
+        }
+    },
+    deleteProduct(id: string) {
+        for (let i = 0; i < blogsDataBase.length; i++) {
+            if (blogsDataBase[i].id === id) {
+                blogsDataBase.splice(i, 1);
+                return true;
+            }
+        }
+        return false
+    }
 
 
 }

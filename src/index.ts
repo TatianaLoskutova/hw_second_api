@@ -2,6 +2,7 @@ import express, {Request, Response} from 'express'
 import bodyParser from 'body-parser';
 import {postRouters} from './routers/post_routers';
 import {blogRouters} from './routers/blog_routers';
+import {TestingRouter} from './routers/testing_router';
 
 
 
@@ -15,6 +16,7 @@ app.use(parserMiddleware)
 // app use
 app.use('/posts', postRouters)
 app.use('/blogs', blogRouters)
+app.use('/testing', TestingRouter)
 
 
 app.listen(port, () => {

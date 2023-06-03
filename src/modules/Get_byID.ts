@@ -1,6 +1,6 @@
 export type IdGetParam = {
     /**
-     * id of existing course
+     * id of existing blog
      */
     id: string
 }
