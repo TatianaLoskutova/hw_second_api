@@ -1,5 +1,6 @@
 import {Request} from 'express';
 import {PostViewModel} from './modules/post/Post_View_model';
+import {BlogViewModel} from './modules/blog/Blog_View_model';
 
 export type PostsType = {
     id: string
@@ -9,8 +10,24 @@ export type PostsType = {
     blogId: string
     blogName: string
 }
+export type BlogsType = {
+    id: string
+    name: string
+    description: string
+    websiteUrl: string
 
+}
+
+export const blogsDataBase: BlogsType[] = []
 export const postsDataBase: PostsType[] = [];
+export const getBlogViewModel = (dbBlog: BlogsType): BlogViewModel => {
+    return {
+        id: dbBlog.id,
+        name: dbBlog.name,
+        description: dbBlog.description,
+        websiteUrl: dbBlog.websiteUrl
+    }
+}
 export const getPostViewModel = (dbPost: PostsType): PostViewModel => {
     return {
         id: dbPost.id,
@@ -23,4 +40,13 @@ export const getPostViewModel = (dbPost: PostsType): PostViewModel => {
     }
 }
 
+export type ErrorsType = {
+    message: string;
+    field: string
+}
+
+export const errorsMessages: ErrorsType[] = []
+
+
 export type RequestWithParams<T> = Request<T>
+export type RequestWithBody<T> = Request<{}, {}, T>
