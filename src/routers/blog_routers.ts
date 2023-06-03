@@ -20,7 +20,7 @@ blogRouters.get('/:id', (req:RequestWithParams<IdGetParam>, res: Response<BlogVi
         res.sendStatus(404)
         return;
     }
-    res.status(200).send(getBlogViewModel(foundBlog))
+    res.status(200).send(getBlogViewModel(foundBlog))  
 })
 
 blogRouters.post('/',
