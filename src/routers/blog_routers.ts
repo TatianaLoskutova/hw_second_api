@@ -36,14 +36,13 @@ blogRouters.put('/:id',
     blogParamsValidation,
     errorsMiddleware,
     (req: RequestWithParamsAndBody<IdGetParam,BlogUpdateModel>, res: Response) => {
-        const isUpdated = blogRepository.updateBlog(req.params.id, req.body.websiteUrl)
+        const isUpdated = blogRepository.updateBlog(req.params.id, req.body.name, req.body.description ,req.body.websiteUrl)
         if (isUpdated) {
             res.sendStatus(204)
         } else {
             res.sendStatus(404)
         }
     })
-
 blogRouters.delete('/:id',
     authHeaderValidator,
     errorsMiddleware,

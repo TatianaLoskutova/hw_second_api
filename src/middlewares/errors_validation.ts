@@ -7,7 +7,7 @@ export const errorsMiddleware = (req: Request, res: Response, next: NextFunction
         // Если есть ошибки - возвращаем ошибку и тело ответа в необходимом формате
         const errorsMessages = errors
             .array()
-            .map((error) => ({ message: error.msg, field: error.type }));
+            .map((error) => ({ message: error.msg, field: error.msg }));
 
         res.status(400).send({ errorsMessages });
     } else {

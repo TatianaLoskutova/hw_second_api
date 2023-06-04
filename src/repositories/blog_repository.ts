@@ -19,9 +19,11 @@ export const blogRepository = {
         blogsDataBase.push(newBlog)
         return newBlog;
     },
-    updateBlog(id: string, websiteUrl: string) {
+    updateBlog(id: string,name: string, description: string ,websiteUrl: string) {
         let blogRepositoryUpdated = blogsDataBase.find(p => p.id === id);
         if (blogRepositoryUpdated) {
+            blogRepositoryUpdated.name = name
+            blogRepositoryUpdated.description = description
             blogRepositoryUpdated.websiteUrl = websiteUrl
             return true;
         } else {
