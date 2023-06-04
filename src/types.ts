@@ -39,12 +39,14 @@ export const getPostViewModel = (dbPost: PostsType): PostViewModel => {
     }
 }
 
-export type ErrorsType = {
+export type ErrorsMessageType = {
     message: string;
     field: string
 }
 
-export const errorsMessages: ErrorsType[] = []
+export type ErrorsType = {
+    errorsMessages: ErrorsMessageType[];
+}
 
 
 export type RequestWithParams<T> = Request<T>
