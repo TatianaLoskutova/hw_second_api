@@ -9,7 +9,7 @@ export const blogRepository = {
         let foundBlog = blogsDataBase.find(p => p.id === id)
         return foundBlog;
     },
-    createBlog(name: string, description: string, websiteUrl: string) {
+    createBlog(id: string,name: string, description: string, websiteUrl: string) {
         const newBlog = {
             id: Math.random().toString(36),
             name: name,
@@ -28,7 +28,7 @@ export const blogRepository = {
             return false;
         }
     },
-    deleteProduct(id: string) {
+    deleteBlog(id: string) {
         for (let i = 0; i < blogsDataBase.length; i++) {
             if (blogsDataBase[i].id === id) {
                 blogsDataBase.splice(i, 1);

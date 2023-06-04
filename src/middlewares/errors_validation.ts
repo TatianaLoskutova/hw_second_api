@@ -11,7 +11,6 @@ export const errorsMiddleware = (req: Request, res: Response, next: NextFunction
 
         res.status(400).send({ errorsMessages });
     } else {
-        // Если ошибок нет - возвращаем успешный результат
         next()
     }
 }

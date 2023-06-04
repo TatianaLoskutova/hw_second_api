@@ -36,7 +36,6 @@ export const getPostViewModel = (dbPost: PostsType): PostViewModel => {
         content: dbPost.content,
         blogId: dbPost.blogId,
         blogName: dbPost.blogName
-
     }
 }
 

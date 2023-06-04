@@ -1,8 +1,13 @@
 import {Router, Request, Response} from 'express';
 import {postRepository} from '../repositories/post_repository';
-import {getPostViewModel, RequestWithParams} from '../types';
+import {getPostViewModel, RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from '../types';
 import {IdGetParam} from '../modules/Get_byID';
 import {PostViewModel} from '../modules/post/Post_View_model';
+import {authHeaderValidator} from '../middlewares/authorization_validation';
+import {errorsMiddleware} from '../middlewares/errors_validation';
+import {PostInputModel} from '../modules/post/Post_Post_model';
+import {postParamsValidation} from '../middlewares/post_params_validation';
+import {PostUpdateModel} from '../modules/post/Put_Post_model';
 
 export const postRouters = Router();
 
@@ -20,3 +25,36 @@ postRouters.get('/:id', (req:RequestWithParams<IdGetParam>, res: Response<PostVi
     res.status(200).send(getPostViewModel(foundPost))
 })
 
+postRouters.post('/',
+    authHeaderValidator,
+    postParamsValidation,
+    errorsMiddleware,
+    (req: RequestWithBody<PostInputModel>, res: Response<PostInputModel>) => {
+        const newPost = postRepository.createPost(req.body.id, req.body.title,req.body.shortDescription, req.body.content, req.body.blogId, req.body.blogName)
+        res.status(201).send(newPost)
+    })
+
+postRouters.put('/:id',
+    authHeaderValidator,
+    postParamsValidation,
+    errorsMiddleware,
+    (req: RequestWithParamsAndBody<IdGetParam,PostUpdateModel>, res: Response) => {
+        const isUpdated = postRepository.updatePost(req.params.id, req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
+        if (isUpdated) {
+            res.sendStatus(204)
+        } else {
+            res.sendStatus(404)
+        }
+    })
+
+postRouters.delete('/:id',
+    authHeaderValidator,
+    errorsMiddleware,
+    (req:RequestWithParams<IdGetParam>, res:Response) => {
+        const isDeleted = postRepository.deletePost(req.params.id)
+        if (isDeleted) {
+            res.sendStatus(204);
+        } else {
+            res.sendStatus(404);
+        }
+    })

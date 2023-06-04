@@ -7,8 +7,7 @@ import {authHeaderValidator} from '../middlewares/authorization_validation';
 import {blogParamsValidation} from '../middlewares/blog_params_validation';
 import {errorsMiddleware} from '../middlewares/errors_validation';
 import {BlogInputModel} from '../modules/blog/Post_Blog_model';
-import {body} from 'express-validator';
-import {BlogUpdateModel} from '../modules/Put_model';
+import {BlogUpdateModel} from '../modules/blog/Put_Blog_model';
 
 export const blogRouters = Router();
 
@@ -28,7 +27,7 @@ blogRouters.post('/',
     blogParamsValidation,
     errorsMiddleware,
     (req: RequestWithBody<BlogInputModel>, res: Response<BlogViewModel>) => {
-        const newBlog = blogRepository.createBlog(req.body.name, req.body.description, req.body.websiteUrl)
+        const newBlog = blogRepository.createBlog(req.body.id,req.body.name, req.body.description, req.body.websiteUrl)
         res.status(201).send(newBlog)
     })
 
@@ -49,10 +48,10 @@ blogRouters.delete('/:id',
     authHeaderValidator,
     errorsMiddleware,
     (req:RequestWithParams<IdGetParam>, res:Response) => {
-    const isDeleted = blogRepository.deleteProduct(req.params.id)
+    const isDeleted = blogRepository.deleteBlog(req.params.id)
     if (isDeleted) {
         res.sendStatus(204);
     } else {
         res.sendStatus(404);
     }
-});
+})
