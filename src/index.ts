@@ -1,5 +1,6 @@
-import express, {Request, Response} from 'express'
+import express from 'express'
 import bodyParser from 'body-parser';
+
 import {postRouters} from './routers/post_routers';
 import {blogRouters} from './routers/blog_routers';
 import {TestingRouter} from './routers/testing_router';
@@ -9,11 +10,11 @@ import {TestingRouter} from './routers/testing_router';
 const app = express()
 const port = process.env.PORT || 5000
 
-// create middleware
+
 const parserMiddleware = bodyParser({})
 app.use(parserMiddleware)
 
-// app use
+
 app.use('/posts', postRouters)
 app.use('/blogs', blogRouters)
 app.use('/testing', TestingRouter)
