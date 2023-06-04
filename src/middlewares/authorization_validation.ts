@@ -3,8 +3,8 @@ import {NextFunction, Request, Response} from 'express';
 
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const log = 'Basic YWRtaW46cXdlcnR5'
-    if (req.headers.authorization !== log) {
+    const loginPass = 'Basic YWRtaW46cXdlcnR5'
+    if (req.headers.authorization !== loginPass) {
         res.sendStatus(401)
     } else {
         next()
