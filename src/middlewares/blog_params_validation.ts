@@ -1,27 +1,42 @@
-import {body} from 'express-validator';
-import {CustomValidator} from 'express-validator/src/base';
-import * as validator from 'validator';
+import {body, ValidationError, validationResult} from 'express-validator';
+import {NextFunction, Request, Response} from 'express';
 
 
-export const blogParamsValidation = [
-    body('name')
-        .isString().withMessage('name should be string')
-        .trim().notEmpty().withMessage('name should not be empty')
-        .isLength({max: 15}).withMessage('Max length is 15 symbols')
-]
+export const nameValidation = body('name')
+    .isString()
+    .trim()
+    .isLength({min: 1, max: 15})
+    .withMessage('Name is not correct')
 
-    body('description')
-        .isString()
-        .withMessage('description should be string')
-        .isLength({max: 500})
-        .withMessage('description is too long');
+export const descriptionValidation = body('description')
+    .isString()
+    .trim()
+    .isLength({min: 1, max: 500})
+    .withMessage('description is not correct');
 
-   body('"websiteUrl')
-        .isString()
-        .withMessage('websiteUrl should be string')
-        .isLength({max: 100})
-        .withMessage('website url is too long')
-        .matches(/^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/)
-        .withMessage('website url does not match the template')
+export const websiteValidation = body('"websiteUrl')
+    .isString()
+    .trim()
+    .isLength({min: 1 , max: 100})
+    .isURL({protocols: ['https']})
+    .withMessage('website is not correct')
 
+export const errorsMiddleware = (req: Request, res: Response, next: NextFunction) => {
+    const errorFormatter = ({location, msg, param, value, nestedErrors}: ValidationError) => {
+        return { message: msg, field: param};
+    };
+    const result = validationResult(req).formatWith(errorFormatter)
+    const validatorArray = result.array({onlyFirstError: true})
+    const myArray = validatorArray.map((element) => {
+        return {
+            field: element.field,
+            message: element.message
+        }
+    })
+    if (!result.isEmpty()) {
+        res.status(400).send({ errorsMessages: myArray});
+    } else {
+        next()
+    }
+}
 

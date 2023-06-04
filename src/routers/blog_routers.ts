@@ -3,9 +3,13 @@ import {blogRepository} from '../repositories/blog_repository';
 import {IdGetParam} from '../modules/Get_byID';
 import {BlogViewModel} from '../modules/blog/Blog_View_model';
 import {getBlogViewModel, RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from '../types';
-import {authHeaderValidator} from '../middlewares/authorization_validation';
-import {blogParamsValidation} from '../middlewares/blog_params_validation';
-import {errorsMiddleware} from '../middlewares/errors_validation';
+import {authMiddleware} from '../middlewares/authorization_validation';
+import {
+    descriptionValidation, errorsMiddleware,
+    nameValidation,
+    websiteValidation
+} from '../middlewares/blog_params_validation';
+
 import {BlogInputModel} from '../modules/blog/Post_Blog_model';
 import {BlogUpdateModel} from '../modules/blog/Put_Blog_model';
 
@@ -23,8 +27,7 @@ blogRouters.get('/:id', (req:RequestWithParams<IdGetParam>, res: Response<BlogVi
     res.status(200).send(getBlogViewModel(foundBlog))
 })
 blogRouters.post('/',
-    authHeaderValidator,
-    blogParamsValidation,
+    authMiddleware,
     errorsMiddleware,
     (req: RequestWithBody<BlogInputModel>, res: Response<BlogViewModel>) => {
         const newBlog = blogRepository.createBlog(req.body.id,req.body.name, req.body.description, req.body.websiteUrl)
@@ -32,8 +35,10 @@ blogRouters.post('/',
     })
 
 blogRouters.put('/:id',
-    authHeaderValidator,
-    blogParamsValidation,
+    authMiddleware,
+    nameValidation,
+    descriptionValidation,
+    websiteValidation,
     errorsMiddleware,
     (req: RequestWithParamsAndBody<IdGetParam,BlogUpdateModel>, res: Response) => {
         const isUpdated = blogRepository.updateBlog(req.params.id, req.body.name, req.body.description ,req.body.websiteUrl)
@@ -44,7 +49,7 @@ blogRouters.put('/:id',
         }
     })
 blogRouters.delete('/:id',
-    authHeaderValidator,
+    authMiddleware,
     errorsMiddleware,
     (req:RequestWithParams<IdGetParam>, res:Response) => {
     const isDeleted = blogRepository.deleteBlog(req.params.id)
