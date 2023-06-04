@@ -1,4 +1,6 @@
 import {body} from 'express-validator';
+import {CustomValidator} from 'express-validator/src/base';
+import * as validator from 'validator';
 
 
 export const blogParamsValidation = body('name')
@@ -9,15 +11,15 @@ export const blogParamsValidation = body('name')
     ;
     body('description')
         .isString()
-        .withMessage('description should be string')
+        .withMessage({ field: 'description', message: 'description should be string' })
         .isLength({max: 500})
-        .withMessage('description is too long')
+        .withMessage({ field: 'description', message: 'description is too long' })
     ;
     body('"websiteUrl')
         .isString()
-        .withMessage('websiteUrl should be string')
+        .withMessage({ field: 'websiteUrl', message: 'websiteUrl should be string' })
         .isLength({max: 100})
-        .withMessage('website url is too long')
+        .withMessage({ field: 'websiteUrl', message: 'website url is too long' })
         .matches(/^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/)
-        .withMessage('website url does not match the template')
+        .withMessage({ field: 'websiteUrl', message: 'website url does not match the template' })
 
