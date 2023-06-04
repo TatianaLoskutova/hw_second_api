@@ -9,7 +9,7 @@ export const errorsMiddleware = (req: Request, res: Response, next: NextFunction
             message: error.msg,
             path: error.msg
         }));
-        // res.status(400).send({ errorsMessages: errors.array() });
+        res.status(400).send({ errorsMessages });
     } else {
         next()
     }
