@@ -1,4 +1,5 @@
 import {body} from 'express-validator';
+import {blogRepository} from '../repositories/blog_repository';
 
 
 export const postTitleValidation = body('title')
@@ -12,8 +13,12 @@ export const postContentValidation = body('"content')
     .isString().withMessage('Should be string')
 export const postBlogIdValidation = body('blogId')
     .isString().withMessage('Should be string')
-export const postBlogNameValidation = body('blogName')
-    .isString()
+    .custom(value => {
+    if (!blogRepository.findBlogById(value)) {
+        throw new Error('Blog is not found')
+    }
+    return true
+    })
 
 
 
