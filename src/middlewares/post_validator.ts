@@ -13,11 +13,14 @@ export const postContentValidation = body('content')
     .isString().withMessage('Should be string')
 export const postBlogIdValidation = body('blogId')
     .isString().withMessage('Should be string')
-    .custom(value => {
-    if (!blogRepository.findBlogById(value)) {
-        throw new Error('Blog is not found')
-    }
-    return true
+    .custom(id => {
+        const findBlogWithId = blogRepository.findBlogById(id)
+        if (!findBlogWithId) {
+            throw new Error('Blog is not found')
+        } else {
+            return true
+        }
+
     })
 
 
