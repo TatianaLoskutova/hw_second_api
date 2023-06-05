@@ -1,12 +1,12 @@
 import {Router, Request, Response} from 'express';
 import {postRepository} from '../repositories/post_repository';
 import {getPostViewModel, RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from '../types';
-import {IdGetParam} from '../modules/Get_byID';
-import {PostViewModel} from '../modules/post/Post_View_model';
+import {IdGetParam} from '../models/Get_byID';
+import {PostViewModel} from '../models/post/Post_View_model';
 import {errorsMiddleware} from '../middlewares/errors_validation';
-import {PostInputModel} from '../modules/post/Post_Post_model';
+import {PostInputModel} from '../models/post/Post_Post_model';
 import {postBlogIdValidation, postContentValidation, postShortDescription, postTitleValidation} from '../middlewares/post_validator';
-import {PostUpdateModel} from '../modules/post/Put_Post_model';
+import {PostUpdateModel} from '../models/post/Put_Post_model';
 import {authMiddleware} from '../middlewares/authorization_validation';
 
 export const postRouters = Router();
@@ -33,7 +33,7 @@ postRouters.post('/',
     postBlogIdValidation,
     errorsMiddleware,
     (req: RequestWithBody<PostInputModel>, res: Response<PostViewModel>) => {
-        const newPost = postRepository.createPost(req.body.id,req.body.title, req.body.shortDescription, req.body.content, req.body.blogId, req.body.blogName)
+        const newPost = postRepository.createPost(req.body)
         res.status(201).send(newPost)
     })
 

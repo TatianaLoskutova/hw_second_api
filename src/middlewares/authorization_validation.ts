@@ -14,7 +14,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     const [login, password] = base64.decode(loginPass).split(':');
 
 
-    if (login !== 'admin' && password !== 'qwerty') {
+    if (login !== 'admin' || password !== 'qwerty') {
         res.sendStatus(401);
         res.send('Invalid credentials');
     }

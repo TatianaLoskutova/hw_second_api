@@ -1,6 +1,7 @@
 import {postsDataBase} from '../types';
-import {PostViewModel} from '../modules/post/Post_View_model';
+import {PostViewModel} from '../models/post/Post_View_model';
 import {blogRepository} from './blog_repository';
+import {PostInputModel} from '../models/post/Post_Post_model';
 
 
 export const postRepository = {
@@ -11,13 +12,13 @@ export const postRepository = {
         let foundPost = postsDataBase.find(p => p.id === id)
         return foundPost;
     },
-    createPost(id: string, title: string, shortDescription: string, content: string, blogId: string, blogName: string) {
-        const postById = blogRepository.findBlogById(blogId)
+    createPost(data: PostInputModel) {
+        const postById = blogRepository.findBlogById(data.blogId)
         const newPost = {
             id: Math.random().toString(36),
-            title: title,
-            shortDescription: shortDescription,
-            content: content,
+            title: data.title,
+            shortDescription: data.shortDescription,
+            content: data.content,
             blogId: postById.id,
             blogName: postById.name
         }

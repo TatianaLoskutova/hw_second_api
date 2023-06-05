@@ -1,12 +1,12 @@
 import {Router, Request, Response} from 'express';
 import {blogRepository} from '../repositories/blog_repository';
-import {IdGetParam} from '../modules/Get_byID';
-import {BlogViewModel} from '../modules/blog/Blog_View_model';
+import {IdGetParam} from '../models/Get_byID';
+import {BlogViewModel} from '../models/blog/Blog_View_model';
 import {getBlogViewModel, RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from '../types';
 import {authMiddleware} from '../middlewares/authorization_validation';
 import {blogDescriptionValidation, blogNameValidation, blogWebsiteUrlValidation,} from '../middlewares/blog_validator';
-import {BlogInputModel} from '../modules/blog/Post_Blog_model';
-import {BlogUpdateModel} from '../modules/blog/Put_Blog_model';
+import {BlogInputModel} from '../models/blog/Post_Blog_model';
+import {BlogUpdateModel} from '../models/blog/Put_Blog_model';
 import {errorsMiddleware} from '../middlewares/errors_validation';
 
 export const blogRouters = Router();

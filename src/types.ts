@@ -1,6 +1,6 @@
 import {Request} from 'express';
-import {PostViewModel} from './modules/post/Post_View_model';
-import {BlogViewModel} from './modules/blog/Blog_View_model';
+import {PostViewModel} from './models/post/Post_View_model';
+import {BlogViewModel} from './models/blog/Blog_View_model';
 
 export type PostsType = {
     id: string
