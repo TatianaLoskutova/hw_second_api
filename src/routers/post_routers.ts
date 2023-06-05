@@ -3,7 +3,6 @@ import {postRepository} from '../repositories/post_repository';
 import {getPostViewModel, RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from '../types';
 import {IdGetParam} from '../modules/Get_byID';
 import {PostViewModel} from '../modules/post/Post_View_model';
-import {authHeaderValidator} from '../middlewares/authorization_validation';
 import {errorsMiddleware} from '../middlewares/errors_validation';
 import {PostInputModel} from '../modules/post/Post_Post_model';
 import {postParamsValidation} from '../middlewares/post_params_validation';
@@ -26,7 +25,6 @@ postRouters.get('/:id', (req:RequestWithParams<IdGetParam>, res: Response<PostVi
 })
 
 postRouters.post('/',
-    authHeaderValidator,
     postParamsValidation,
     errorsMiddleware,
     (req: RequestWithBody<PostInputModel>, res: Response<PostInputModel>) => {
@@ -35,7 +33,6 @@ postRouters.post('/',
     })
 
 postRouters.put('/:id',
-    authHeaderValidator,
     postParamsValidation,
     errorsMiddleware,
     (req: RequestWithParamsAndBody<IdGetParam,PostUpdateModel>, res: Response) => {
@@ -48,7 +45,6 @@ postRouters.put('/:id',
     })
 
 postRouters.delete('/:id',
-    authHeaderValidator,
     errorsMiddleware,
     (req:RequestWithParams<IdGetParam>, res:Response) => {
         const isDeleted = postRepository.deletePost(req.params.id)

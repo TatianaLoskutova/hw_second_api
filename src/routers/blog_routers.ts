@@ -4,11 +4,7 @@ import {IdGetParam} from '../modules/Get_byID';
 import {BlogViewModel} from '../modules/blog/Blog_View_model';
 import {getBlogViewModel, RequestWithBody, RequestWithParams, RequestWithParamsAndBody} from '../types';
 import {authMiddleware} from '../middlewares/authorization_validation';
-import {
-    descriptionValidation,
-    nameValidation,
-    websiteValidation
-} from '../middlewares/blog_params_validation';
+import {blogDescriptionValidation, blogNameValidation, blogWebsiteUrlValidation,} from '../middlewares/blog_validator';
 
 import {BlogInputModel} from '../modules/blog/Post_Blog_model';
 import {BlogUpdateModel} from '../modules/blog/Put_Blog_model';
@@ -29,6 +25,9 @@ blogRouters.get('/:id', (req:RequestWithParams<IdGetParam>, res: Response<BlogVi
 })
 blogRouters.post('/',
     authMiddleware,
+    blogNameValidation,
+    blogDescriptionValidation,
+    blogWebsiteUrlValidation,
     errorsMiddleware,
     (req: RequestWithBody<BlogInputModel>, res: Response<BlogViewModel>) => {
         const newBlog = blogRepository.createBlog(req.body.id,req.body.name, req.body.description, req.body.websiteUrl)
@@ -37,9 +36,9 @@ blogRouters.post('/',
 
 blogRouters.put('/:id',
     authMiddleware,
-    nameValidation,
-    descriptionValidation,
-    websiteValidation,
+    blogNameValidation,
+    blogDescriptionValidation,
+    blogWebsiteUrlValidation,
     errorsMiddleware,
     (req: RequestWithParamsAndBody<IdGetParam,BlogUpdateModel>, res: Response) => {
         const isUpdated = blogRepository.updateBlog(req.params.id, req.body.name, req.body.description ,req.body.websiteUrl)
@@ -51,6 +50,9 @@ blogRouters.put('/:id',
     })
 blogRouters.delete('/:id',
     authMiddleware,
+    blogNameValidation,
+    blogDescriptionValidation,
+    blogWebsiteUrlValidation,
     errorsMiddleware,
     (req:RequestWithParams<IdGetParam>, res:Response) => {
     const isDeleted = blogRepository.deleteBlog(req.params.id)
