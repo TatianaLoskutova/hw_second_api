@@ -55,11 +55,6 @@ postRouters.put('/:id',
 
 postRouters.delete('/:id',
     authMiddleware,
-    postTitleValidation,
-    postShortDescription,
-    postContentValidation,
-    postBlogIdValidation,
-    errorsMiddleware,
     (req:RequestWithParams<IdGetParam>, res:Response) => {
         const isDeleted = postRepository.deletePost(req.params.id)
         if (isDeleted) {
