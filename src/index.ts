@@ -14,10 +14,10 @@ const port = process.env.PORT || 5000
 const parserMiddleware = bodyParser({})
 app.use(parserMiddleware)
 
-
+app.use('/testing', TestingRouter)
 app.use('/posts', postRouters)
 app.use('/blogs', blogRouters)
-app.use('/testing', TestingRouter)
+
 
 
 app.listen(port, () => {
