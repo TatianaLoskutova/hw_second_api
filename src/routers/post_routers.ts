@@ -5,8 +5,9 @@ import {IdGetParam} from '../modules/Get_byID';
 import {PostViewModel} from '../modules/post/Post_View_model';
 import {errorsMiddleware} from '../middlewares/errors_validation';
 import {PostInputModel} from '../modules/post/Post_Post_model';
-import {postParamsValidation} from '../middlewares/post_params_validation';
+import {postBlogIdValidation, postContentValidation, postShortDescription, postTitleValidation} from '../middlewares/post_validator';
 import {PostUpdateModel} from '../modules/post/Put_Post_model';
+import {authMiddleware} from '../middlewares/authorization_validation';
 
 export const postRouters = Router();
 
@@ -25,7 +26,11 @@ postRouters.get('/:id', (req:RequestWithParams<IdGetParam>, res: Response<PostVi
 })
 
 postRouters.post('/',
-    postParamsValidation,
+    authMiddleware,
+    postTitleValidation,
+    postShortDescription,
+    postContentValidation,
+    postBlogIdValidation,
     errorsMiddleware,
     (req: RequestWithBody<PostInputModel>, res: Response<PostInputModel>) => {
         const newPost = postRepository.createPost(req.body.id, req.body.title,req.body.shortDescription, req.body.content, req.body.blogId, req.body.blogName)
@@ -33,7 +38,11 @@ postRouters.post('/',
     })
 
 postRouters.put('/:id',
-    postParamsValidation,
+    authMiddleware,
+    postTitleValidation,
+    postShortDescription,
+    postContentValidation,
+    postBlogIdValidation,
     errorsMiddleware,
     (req: RequestWithParamsAndBody<IdGetParam,PostUpdateModel>, res: Response) => {
         const isUpdated = postRepository.updatePost(req.params.id, req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
@@ -45,6 +54,11 @@ postRouters.put('/:id',
     })
 
 postRouters.delete('/:id',
+    authMiddleware,
+    postTitleValidation,
+    postShortDescription,
+    postContentValidation,
+    postBlogIdValidation,
     errorsMiddleware,
     (req:RequestWithParams<IdGetParam>, res:Response) => {
         const isDeleted = postRepository.deletePost(req.params.id)
