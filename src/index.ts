@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 
 import {postRouters} from './routers/post_routers';
 import {blogRouters} from './routers/blog_routers';
-import {TestingRouter} from './routers/testing_router';
+import {testingRouter} from './routers/testing_router';
 
 
 
@@ -14,7 +14,7 @@ const port = process.env.PORT || 5000
 const parserMiddleware = bodyParser({})
 app.use(parserMiddleware)
 
-app.use('/testing', TestingRouter)
+app.use('/testing', testingRouter)
 app.use('/posts', postRouters)
 app.use('/blogs', blogRouters)
 
