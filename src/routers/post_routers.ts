@@ -33,7 +33,7 @@ postRouters.post('/',
     postBlogIdValidation,
     errorsMiddleware,
     (req: RequestWithBody<PostInputModel>, res: Response<PostViewModel>) => {
-        const newPost: PostViewModel = postRepository.createPost(req.body.id, req.body.title,req.body.shortDescription, req.body.content, req.body.blogId, req.body.blogName)
+        const newPost = postRepository.createPost(req.body.id,req.body.title, req.body.shortDescription, req.body.content, req.body.blogId, req.body.blogName)
         res.status(201).send(newPost)
     })
 

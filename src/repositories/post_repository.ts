@@ -1,5 +1,6 @@
 import {postsDataBase} from '../types';
 import {PostViewModel} from '../modules/post/Post_View_model';
+import {blogRepository} from './blog_repository';
 
 
 export const postRepository = {
@@ -11,13 +12,14 @@ export const postRepository = {
         return foundPost;
     },
     createPost(id: string, title: string, shortDescription: string, content: string, blogId: string, blogName: string) {
-        const newPost: PostViewModel = {
+        const postById = blogRepository.findBlogById(blogId)
+        const newPost = {
             id: Math.random().toString(36),
             title: title,
             shortDescription: shortDescription,
             content: content,
-            blogId: blogId,
-            blogName: blogName
+            blogId: postById.id,
+            blogName: postById.name
         }
         postsDataBase.push(newPost)
         return newPost;
